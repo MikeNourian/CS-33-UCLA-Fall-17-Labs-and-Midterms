@@ -1,0 +1,20 @@
+Name: Milad Nourian
+UID: 004854226
+
+12.17)A)
+
+The bug in the code is that even though we sleep for 1 second in the thread, we do not wait for the pthread, because we do not use pthread_join. So when in main we create the new thread, the execution of the program in main will continue, since we are not obligated to wait for new thread to finish in order to continue. So, we would return from main and finish the program before we would be able to print.
+
+
+
+12.17)B)
+use pthread_join so that now instead of just creating the thread but continuing the execution, we have to wait for the thread to return. With pthread_join we are obligated to wait for the thread created to finish, which means, we would sleep for 1 second, and then print "Hello,world", and after returning from the thread, we would allow the execution in main and finish the program.
+
+12.25)
+a)
+Yes, it is safe. What makes it safe is using mutex. Mutex is used so that the global variable is protected and it only calls functions that are safe, so we can conclude that echo_cnt.c is safe to call.
+
+b)
+No, because of the shared variable. All of the threads of that run the program share the same mutex, and this shared variable (resource) means that it is not reentrant.
+
+
