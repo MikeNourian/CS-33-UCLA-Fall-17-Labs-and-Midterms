@@ -37,7 +37,6 @@
 | [Eggert](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS_33_Eggert_MT1_.pdf)  | Fall 2015          |
 | [Eggert](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS_33_Eggert_MT1_.pdf)  | Fall 2015          |
 | [Eggert](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS_33_Eggert_MT1_Fall17_o_id908.pdf)  | Fall 2017          |
-
 | [Reinman](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS33_Reinman_MT1_Spring2016_.pdf)  | Spring 2016         |
 | [Reinman](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS_33_Reinman_MT1_Spring10_o_id58.pdf)  | Spring 2010         |
 | [Reinman](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS_33_Reinman_MT1_Spring13_s_id353.pdf)  | Spring 2013         |
