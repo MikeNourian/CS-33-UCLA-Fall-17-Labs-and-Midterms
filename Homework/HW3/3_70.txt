@@ -1,0 +1,30 @@
+#Name: Milad Nourian
+
+
+A) 
+e1.p	  0
+e1.y 	  8
+e2.x 	  0
+e2.next	  8
+
+B) 
+The number of bytes is 16, since the data type is union and both of the structs nested inside are of length 16.
+basically, 
+e1 requires 16 bytes
+e2 requires 16 bytes as well.
+
+
+C)
+void proc(union ele* up)
+{
+    up->e2.x = *(up->e2.next->e1.p) - up->e2.next->e1.y;
+}
+
+movq	8(%rdi), %rax
+movq	(%rax), %rdx
+movq	(%rdx), %rdx
+subq	8(%rax), %rdx
+movq	%rdx, (%rdi)
+ret
+
+the first instruction tells us to offset from up by 8 and put the value as in register %rax (%rax = next). We know that this a reference to next since after that we have movq (%rax), %rdx which mean treat the value in %rax as an address in memory and move its content to %rdx (next is a pointer to another union). Now movq	(%rdx), %rdx says that treat the value that %rdx has as an address (we know now %rdx = up->e2.next->e1.p), treat that value as a memory address and move its content to the %rdx register. Now we subtract subq	8(%rax), %rdx which corresponds to up->e2.next->e1.y, and at the end we assign the final value to up->e2.x. 

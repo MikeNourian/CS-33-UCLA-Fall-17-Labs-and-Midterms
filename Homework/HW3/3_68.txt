@@ -1,0 +1,44 @@
+#Name: Milad Nourian
+
+For finding the values of A and B, I used the fact that in the assembly instruction, 
+movslq 8(Y.rsi), %rax
+
+%rsi is holding q (a pointer to str2). 
+* This instruction corresponds with      long v1 = q-> t;
+* To get to int t, we have offseted 8 from where the pointer q is pointing (which is the beginning of the struct).
+* int t follows char array[B]. We know that integer int has an alignment of 4. 
+* We also know that each character is 1 byte long, and we have offsetted by 8 from the top of the struct str2.
+* So there are few cases that are possible for A which is the size of the array
+* The possible cases are between 5 (can not be 4 since that way the alignment would be fine already), and 8
+* So the possible values for A to keep the alignment are
+POSSIBLE A VALUES:
+A = 5
+A = 6 
+A = 7
+A = 8
+
+Below statement corresponds to long v2 =q->u; and also added values of v1 + v2 in the next line
+addq 32(%rsi), %rax
+* We see that for getting the value q->u (which is the member u which q is pointing to) we have offsetted by 32. 
+* We already know that to get to t (q->t), we offsetted by 8 and also int follows the array so :
+8 + 4 + size_for_s[A] = 32
+* From above we can infer that the size for s[A] array is 20 bytes. 
+* We also know that a long (type) with alignment 8 follows this array. 
+* We also know that size of short is 2 bytes ==> maximum number of values in the array is 10
+so possible values for B are:
+POSSIBLE B VALUES:
+B = 7
+B = 8
+B = 9
+B = 10 
+
+The next assembly instruction is movq %rax, 184(%rdi)
+
+* The array x[A][B] is followed by a long which has an alignment of 8. Therefore, so the possible number of bytes for x[A][B] is 180 or 184 which corresponds to 45 or 46 members in the array.
+
+From the possible values of A, and B only one match was found that gave the correct solution:
+
+A = 5
+B = 9
+
+
