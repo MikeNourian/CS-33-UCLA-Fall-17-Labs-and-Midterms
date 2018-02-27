@@ -1,6 +1,0 @@
-Name: Milad Nourian
-UID:  004854226
-
-#The solution to the homework problems specified can be found in the tar.gz file
-
-#The solution to alt_cread, produced assembly code that used conditional move (cmove) under O2 level of optimization (ie, gcc -S -O2 cread_alt.c)
