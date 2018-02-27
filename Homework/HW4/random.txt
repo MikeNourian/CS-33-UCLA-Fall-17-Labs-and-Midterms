@@ -1,0 +1,26 @@
+A. TRUE:
+	when converting x to dx there is no loss of information since a double has a larger range than int, 
+	and also dx wont contain a value greater or smaller than TMAX/TMIN respectively since it was formed from an int	
+	when converting x to float there is no loss of information since a float also has a larger range than an int
+	the conversion then from dx to float and from x to float will have the same rouning behavior and will result in the same number
+
+B. FALSE: 
+	if x is TMIN and y is any negative int then x-y will overflow positive and then casting that to double will result in some positive double
+	However dx and dy will contain the negative values, and dx - dy will compute the correct result and then round to even, which will result in a negative number
+	This is assuming fwrapv, needs to assume fwrapv otherwise x-y wont overflow positive, will just trap or undefined behavior
+	
+C. TRUE:
+	addition in floating point is not associative, however dx and dy and dz are all formed from integers and the 52 bits for fraction can hold the 32 bits from the integers
+	so the entire int fits in each double, and therefore the addition between all three will maintain the correct answer since the doubles wont hold large enough values to cause rounding error
+	
+
+D. FALSE:
+	Doubles can hold ints of size 2^52-1 in its fraction field, so if there are suffifciently large enough ints multiplied together they can overflow the fraction field and cause rounding error
+	if x = 2^31 - 1  & y = 2^24 and z = 2^-1 then (dx * dy) ~ 2^55 * 2^-1 with 2^55 experiencing rounding truncation
+	 and (dy*dz) ~ 2^23 * 2^31 without any rounding truncation
+	Therefore they are not equal
+
+E. FALSE:
+	if dx = 0 and dz = 1 
+	then dx/dx = NAN and dz/dz = 1
+	Therefore they are not equal
