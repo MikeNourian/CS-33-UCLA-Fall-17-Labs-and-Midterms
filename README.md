@@ -12,7 +12,7 @@
 # Labs
 | Lab Name  |  Grade Received       |
 | ----------- |  ---------------|
-| Data Lab - Description    |  98/100           |
+| [Data Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Data%20Lab) - Description    |  98/100           |
 | Pexex Lab - Description | 100/100        |
 | Smashing Lab - Description|   99/100          |
 | OpenMP Lab -Description | 100/100         |
