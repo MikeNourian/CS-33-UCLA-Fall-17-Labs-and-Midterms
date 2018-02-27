@@ -1,0 +1,32 @@
+#Name: Milad Nourian
+#UID: 004854226
+
+
+3.64)
+A)
+I thought of the 3 dimensional array long A[R][S][T] as an extension of the 2D
+dimensional array.
+Equation 3.1 in the book gives us &D[i][j] = xD+ L*(C*i+j) where L is the size
+of the data type used in the problem. We know that a 2D graph int arr [R][C] is
+row-major meaning that we will first see all elements of row0, then all elements
+of row1, then all elements of row2, etc. The 3D array also uses a configuration
+very similar to this. I used the assembly code to find out that after arithmetic
+operations on the registers, the total offset is found to be: offset =
+65i+13j+k, and 
+A[i][j][k] = xD+8*(65i+13j+k). The reason that 8 is multiplied to the expression
+is that long is 8 bytes. I know the 3D is a continuous allocated space on
+memory:
+for change of single elements, we can change k, so A[0][0][0], A[0][0][1] are
+next to each other. Now, value of j is used to make bigger jumps in memory,
+particularly, the amount of jump is equal to how many elements we have in
+T. With i, we can make even bigger jumps in memory, specifically, we can make
+T(number of elements in a small block)*S(number of small blocks), so the final
+equation for the offset in 3D array and example given for A[R][S][T] is:
+offset = k + T*j + (T*S)i
+location = xA + k + T*j + (T*S)i
+B)
+I calculated the offset to be offset = 65i+13j+k, and offset = k + T*j + (T*S)i
+was found so:
+T = 13
+S = 5
+R = 7
