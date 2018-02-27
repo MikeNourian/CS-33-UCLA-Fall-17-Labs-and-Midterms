@@ -1,0 +1,57 @@
+1) The instruction in the assembly that causes the issue and lead to incorrect results is 
+0x0000000000544dfc <arith_driver+284>:	4a 8d 04 a5 02 00 00 00	lea    0x2(,%r12,4),%rax	rax = 0x7fffffff73ab3b42
+This instruction causes an overflow and so rax does not hold the correct value anymore. I reached this conclusion by calculating the value by hand and seeing that the produced result is inconsistent with the value that register %rax holds. (we know the value is inconsistent since the correct result of the multiplication is -2.3058430098×10^18 which is not the same as 2305843008625102544 which was produced)
+
+2)
+I ran the command in gdb to find out where to find how 'most-negative-fixnum' is defined. I came across this:
+in data.c file (where the functions are defined)
+we have Vmost_negative_fixnum to be equal to 'most-negative-fixnum'. 
+After looking through lisp.h I found out that Vmost_negative_fixnum is equivalent to MOST_NEGATIVE_FIXNUM. 
+
+#define MOST_NEGATIVE_FIXNUM (EMACS_INT_MIN >> INTTYPEBITS)  
+Also I found out out that INTTYPEBITS is actually 2.
+
+Also, 
+EMACS_INT_MIN = 0x8000000000000000 (a leading 1 and all other bits equal to 0).
+Which after shifting to the right by 2 (arithmetic shift) leads to the 
+0xE000000000000000 = -2305843009213693952 which is the value returned.
+
+3)
+I read through data.c and found out:
+In case of overflow when 2 large numbers are multiplied the overflow result is masked with
+#define INTMASK = (EMACS_INT_MAX >> (INTTYPEBITS - 1))
+From question 2 I know INTTYPEBITS == 2 and EMACS_INT_MAX = 0x7fffffffffffffff
+after the shift to the right by 1, the value of INTMASK is
+INTMASK = 0x3fffffffffffffff
+and while the result of the overflow is 
+result = 0xc000000000000001
+
+return (0xc000000000000001 & 0x3fffffffffffffff)  leads to 0x1 and that is the value returned.
+
+4) when fwrapv is used the top bits that do not fit in the 64 bits are basically ignored (or wrapped). Therefore, this can lead to issues where one may not be able to detect the overflow. So basically compiling the emacs with -fwrapv will not cause any run-time errors or issues. Whenever there is an overflow, the program will just cause the bits to wrap around (wrapping occur) and avoids undefined behavior. However, this means that many of the arithmetic operations performed will not have the correct expected results and when a program performs an arithmetic operation on emacs if compiled with flag -fwrapv, it can produce incorrect results which is a direct result of wrapping.
+
+5) 
+
+I ran the code on gdb to see where the program on emacs source code crashes 
+
+I used the professor Eggert’s version of the emacs and opened it in gdb.
+I ran:
+(gdb) run emacs -Q -batch -eval '(print (format-time-string "%Y-%m-%d %H:%M:%S %Z" nil (concat (make-string 1000 ?X) "0")))'
+
+the program crashed at this point. So I ran a backtrace
+(gdb) backtrace
+I saw the stack frame and which functions were called by which functions. On top of the stack was function __strcpy_sse2_unaligned () which caused the crash.
+So I put a breakpoint at this function:
+(gdb) break __strcpy_sse2_unaligned
+
+I restarted the program by using (gdb) run and this time the program stopped at the breakpoint of __strcpy_sse2_unaligned (). I then I stepped into this function and looked
+at different function that were called by this function. What seemed interesting was that this function called many other functions. Looking at different source code lines 
+and instruction I realized that the program crashes due to overflow. Specifically at line 
+1677, the program went through the function 
+handle_sigsegv(...)
+In the explanation of this function it was stated that this occurs due to C stack overflow. I ran backward from that point (line in the program), and I saw that a buffer is allocated in the function, however, the size of the buffer grows past its boundary (buffer had different type of information about the formatting and also the output). Since the space for the buffer was allocated on the stack frame, and enough space was not made available for it, it caused a stack (buffer) overflow and crashed the program.
+
+
+
+
+

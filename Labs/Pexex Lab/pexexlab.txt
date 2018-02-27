@@ -1,0 +1,50 @@
+#Name: Mike Milad Nourian
+#UID: 004854226
+
+First thing I did was to use the source code (and executable) under professor Eggert's directory and run it on gdb so I ran (before that I made sure that I am on the appropriate server which in this case is lnxsrv09):
+
+$ gdb ~eggert/bin64/bin/emacs-25.2 
+
+Now set a breakpoint at Ftimes 
+(gdb) break Ftimes
+The breakpoint is set here so I can trace through the program when I get to this point and find out what functions are called by Ftimes directly or indirectly.
+
+I also ran:
+(gdb) set logging on //this was to record all the instruction and results on my home directory under gdb.txt
+(gdb) set disassemble-next-line on //this was to produce assembly code for the entire program. 
+In the lab we are instructed to basically go through all the lines of the instructions of Ftimes and functions called by it and also to record the effect of each instruction on the registers. set disassemble-next-line on allowed me to disassemble the source machine code and step through all the instructions. 
+
+
+Then I started running:
+(gdb) si 
+which corresponds to stepping into. This means that for each assembly instruction step into the function and go through all the assembly instruction. 
+
+A typical line of output after disassembling it looks like the following
+0x0000000000544ce9 <arith_driver+9>:	53	push   %rbx	M8[0x7fffffffd678]= 0x7fffffffd6d0 rsp = 0x7fffffffd678
+which give information about the operation, the address where the instruction is stored at and also the function line (My responsibility was to record the changes made by the assembly instructions on the registers and memory).
+
+
+To get the value of the register I ran the following 2 (gdb)
+(gdb) info register $(name_of_the_register)
+(gdb) info registers 
+
+then I used the values of the registers to create my trace file since I needed to know the values of the registers to know how each instruction made modifications to the registers values or the memory.
+
+
+(gdb) disas /m 
+I also used this a few times since it gave me the exact line (line number in the source code)
+
+
+However, what was repeated the most throughout, was the following:
+(gdb) si 
+to step into the function and find out about all the assembly instructions and following which functions are called directly or indirectly by Ftimes. 
+
+(gdb) info register $(name_of_the_register)
+(gdb) info registers 
+These were 2 other commands that helped me keep track of the values of the registers in the program and to find out how each instruction make changes to the memory and registers. 
+
+For any line that a value changed the memory, I recored it in my trace.t, the same format that was instructed on the lab instructions. However, for instructions like cmpq that only set the RFLAGS, I did not include their effect since the lab did not instruct us to do so.
+
+
+
+

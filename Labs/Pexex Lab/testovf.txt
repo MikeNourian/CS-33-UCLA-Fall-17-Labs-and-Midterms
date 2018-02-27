@@ -1,0 +1,163 @@
+# Name: Milad Nourian
+# UID: 004854226
+# CS 33
+# Professor Eggert
+
+
+To compare the result for comparing the different assembly code with each different instruction I ran the following:
+1)
+$ gcc -S -O2 testovf.c
+
+2) for the case of -fwrapv, I ran:
+$ gcc -S -O2 -fwrapv testovf.c
+
+3)for the case of -O2 -fsanitize=undefined I ran:
+$ gcc -S -O2 -fsanitize=undefined testovf.c
+
+--------------------------------------------
+(1) with  $ gcc -S -O2 testovf.c
+Output testovf.s:
+******************************************
+	.file	"testovf.c"
+	.text
+	.p2align 4,,15
+	.globl	testovf
+	.type	testovf, @function
+testovf:
+.LFB11:
+	.cfi_startproc
+	xorl	%eax, %eax
+	ret
+	.cfi_endproc
+.LFE11:
+	.size	testovf, .-testovf
+	.ident	"GCC: (GNU) 4.8.5 20150623 (Red Hat 4.8.5-16)"
+	.section	.note.GNU-stack,"",@progbits
+******************************************
+
+
+it can be seen that register eax is set to zero (xorl	%eax, %eax and we know if we xor a number by itself the result is always zero). Also we know that %rax is the register that holds the return value (which in this case is of type _Bool). So we can infer that for all values of n, the flag -O2 basically performs no check for overflow and since  n + 9223372036854775807 < n, it always assumes that the result of this instruction is false. The reason for that is that if n>=0, then when 2 positive numbers 9223372036854775807 and n are added, the result is definitely is greater than n (which we know in many cases is incorrect, when 2 signed numbers are large and a positive overflow occurs and the sum of 2 large positive signed numbers lead to a negative number). In the case of a negative number, it is assumed that since 9223372036854775807 is a positive number, if a negative number is added to it, it will still be larger than the original negative number. 
+
+
+--------------------------------------------
+(2) with $ gcc -S -O2 testovf.c:
+Output testovf.s:
+******************************************
+        .file   "testovf.c"
+        .text
+        .p2align 4,,15
+        .globl  testovf
+        .type   testovf, @function
+testovf:
+.LFB0:
+        .cfi_startproc
+        movabsq $9223372036854775807, %rax
+        addq    %rdi, %rax
+        cmpq    %rdi, %rax
+        setl    %al
+        ret
+        .cfi_endproc
+.LFE0:
+        .size   testovf, .-testovfs
+        .ident  "GCC: (GNU) 4.8.5 20150623 (Red Hat 4.8.5-16)"
+        .section        .note.GNU-stack,"",@progbits
+******************************************
+
+This case produces different results and assembly code from the previous case:
+First, I read through the information available about CFI (Call Frame Information), CFA (Canonical Frame Address), and found that CFI labels in the assembly code above are used to manage these labels.
+
+In this assembly code, assembly starts with cfi_startproc and ends with cfi_endproc. cfi_startproc is used at the beginning of all the function that are associated with .eh_frame which is a frame holding information about CFI. As mentioned, CFI holds information about the frame and .eh_frame holds this information in the form of Common Info Entry (CIE). So, basically when we have to save the CFI to the .eh_frame we will use cfi_startproc and when the function returns we use .cfi_endproc.
+
+What in this case the compiler does is(as seen in the assembly), it first moves the value $9223372036854775807 to the register %rax. Then add to this the value n and stores the result in the register %rax. 
+cmpq    %rdi, %rax
+this compares the values of n and n + 9223372036854775807. Then the assembly uses the setl which sets the value of %al (lower 8 bits of %rax) to 1, if %rdi (n) is larger and there was an overflow, otherwise, set it to 0 (we know that setl can only set the lower bits of a register either to 1 or 0). 
+Therefore, we can see that with flag -O2 -fwrapv, this performs a check for the overflow and sets the lower 8 bits of %rax to 0 or 1 (since the returning type is a bool) indicating whether or not there was an overflow.
+
+
+--------------------------------------------
+(3) with $ gcc -S -O2 -fsanitize=undefined testovf.c
+Output testovf.s:
+******************************************
+        .file   "testovf.c"
+        .text
+        .p2align 4,,15
+        .globl  testovf
+        .type   testovf, @function
+testovf:
+.LFB0:
+        .cfi_startproc
+        pushq   %rbp
+        .cfi_def_cfa_offset 16
+        .cfi_offset 6, -16
+        pushq   %rbx
+        .cfi_def_cfa_offset 24
+        .cfi_offset 3, -24
+        movabsq $9223372036854775807, %rdx
+        movq    %rdi, %rbp
+        movq    %rdi, %rbx
+        subq    $8, %rsp
+        .cfi_def_cfa_offset 32
+        addq    %rdx, %rbp
+        jo      .L6
+.L2:
+        cmpq    %rbx, %rbp
+        setl    %al
+        addq    $8, %rsp
+        .cfi_remember_state
+        .cfi_def_cfa_offset 24
+        popq    %rbx
+        .cfi_def_cfa_offset 16
+        popq    %rbp
+        .cfi_def_cfa_offset 8
+        ret
+.L6:
+        .cfi_restore_state
+        movq    %rdi, %rsi
+        movl    $.Lubsan_data0, %edi
+        call    __ubsan_handle_add_overflow
+        jmp     .L2
+        .cfi_endproc
+.LFE0:
+        .size   testovf, .-testovf
+        .section        .rodata.str1.1,"aMS",@progbits,1
+.LC0:
+        .string "testovf.c"
+        .data
+        .align 16
+        .type   .Lubsan_data0, @object
+        .size   .Lubsan_data0, 24
+.Lubsan_data0:
+        .quad   .LC0
+        .long   4
+        .long   12
+        .quad   .Lubsan_type0
+        .align 2
+        .type   .Lubsan_type0, @object
+        .size   .Lubsan_type0, 15
+.Lubsan_type0:
+        .value  0
+        .value  13
+        .string "'long int'"
+        .ident  "GCC: (GNU) 7.2.0"
+        .section        .note.GNU-stack,"",@progbits
+******************************************
+
+This flag clearly produces more assembly and machine instruction than the other 2. First the callee saved register %rbp and %rbx are set pushed onto the stack so they can be restored later. At the same time instructions such as .cfi_def_cfa_offset 16 incdicate the amount of offset for CFA (so that we can calculate the value of CFA). Next move 9223372036854775807 to the register %rdx, and set %rbp and %rbx to n. This is the interseting part. Now we add value of %rdx (9223372036854775807) and %rbp (n) and store it in %rbp. Then we have the conditional jump, jo      .L6 which makes the jump if there was an overflow. 
+So the assembly checks the result of (9223372036854775807) + n  ==> if there was an  overflow jumps to 
+.L6:
+        .cfi_restore_state
+        movq    %rdi, %rsi
+        movl    $.Lubsan_data0, %edi
+        call    __ubsan_handle_add_overflow
+        jmp     .L2
+        .cfi_endproc
+
+When it gets here it call a function __ubsan_handle_add_overflow to handle the overflow, and then at the end goes back to .L2 . On the other hand, if there was no overflow in the case of n + 9223372036854775807, the program continues with its execution and falls in .L2 where very much like case 2 with -fwrapv, the compiler compares the result of n + 9223372036854775807 with n if the result had an overflow (OF was on) it sets the lower 8 bits of %rax (return value) to 1. 
+
+
+
+-----------------------------------------
+In general, comparing the assembly created with the 3 different flags, it seems like the case of -O2 -fsanitize=undefined  has too much overhead and make too many unnecessary checks and does not run efficiently. -O2 -frwrapv is more efficient and does the job correctly, it checks if there was an overflow and run faster and with less number of checks (does not have any unnecessary jumps). And -O2 basically ignore the cases of overflow and does not even check whether or not there was an overflow in the signed arithmetic and always returns 0. This behavior can be unsafe and lead to incorrect results in some cases.
+
+
+
