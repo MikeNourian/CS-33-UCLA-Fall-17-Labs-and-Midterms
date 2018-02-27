@@ -1,0 +1,29 @@
+A) The expression doesnt always yield to 1
+For instance if x=TMin (x = INT_MIN) and y is 0. This yield zero
+B)The expression always yields 1
+x = TMin (INT_MIN) and y = 0
+Shifting to the left by k units is assoicated with a multiplication by 2^k, therefore,
+(x+y)*2^4 + x - y= 17x + 15y which is the same as 17*y+15*x, so the properties that we useare Associative, commutative, distributes
+
+C)This always yields 1.
+We know
+-x = ~x+1 ==> ~x = -x-1
+-y = ~y+1 ==> ~y = -y-1
+~x + ~y +1 = (-x-1) + (-y-1)+1 = -x - y -1 = ~(x+y)
+therefore, LH = RH and the expression is true
+
+D) This yields true 
+ux - uy represents an unsigned arithmetic operation. The right side is performed by signedarithmetic,however, on the low level the variables have the same bit representation (U2B(ux) = T2B(x) and U2B(ux) = T2B(y)) which when casted and negated produces the same value LH = RH which yields true
+
+E) This always yields 1
+When we shift to the right by 2 units and shift back to the left by 2 units, no matter if the shift is arithmetic or logical, the bit pattern of the most significant bits will remain the same. The least significant bit can change however. If there are 11 on the right side of the bit pattern, after the shift, 0 will be inserted on the right shift which will result in a smaller number. For case when 10 or 01 are the least significant bits also, the least significant bits will become 00 and result in a smaller number than x. If the least significant bits were 00, after shifting to the right and left, the least significant bit pattern remains 00 which means that the condition is always true. 
+
+
+F) This yields in 1
+x and ux have the same bit representation. From x >> 1 and ux >>1, the resulted shifted bit representation for the 2 will be the same for the lower 31 bits. The only difference between x >> 1 and ux >> 1, can be in their first bit representation as x is an int and right shift would be an arithmetic shift and the most significant bit can be 0 or 1, however, the most significant bit for ux >> 1 would be 0. In expression  (ux & (-1 << 31)), we shifts bits of -1(Binary representation 1111111...111) to the left by 31 units which results in 10000.0000, a single one for the most significant bit. When we use & , we basically get the most original most significant bit of x(or ux) and the rest of the bits are zero. When added, the LH and RH have the same bit representation and since the the RH is an unsigned expression, the LH also will be casted to unsigned, and it will yield true
+
+G)This does not always yield 1(not always true)
+x = -2 (x= 11111111...1110)
+x%128 = -2
+however, x & 127 would generate a different value so the expression is not true
+

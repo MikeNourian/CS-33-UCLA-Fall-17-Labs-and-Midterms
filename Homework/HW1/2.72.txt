@@ -1,0 +1,5 @@
+A) A mabyte is an integer (signed) as declared in the prototype of the function and sizeof() return a value of type size_t which is an unsigned value. On the left hand side of the condition in the we have maxbytes - size(val),since the types do not match, the expression on the left will undergo unsigned arithmetic, and after evaluation of the left side, LH (left-hand) value will be evaluated as unsigned. Unsigned values are always greater or equal to 0 (>=0), therefore the condtion maxbytes - sizeof(val) will always generate true.
+
+B)We can fix the conditional by first making sure the maxybytes value is positive, that  means that the most significant bit of the expression is 0, so we do not need to worry about the 2's complement (signed) when casted to unsigned , and we can compare the values maxbytes and valueof(val):
+if (maxbytes > 0 && maxbytes >= sizeof(val))
+
