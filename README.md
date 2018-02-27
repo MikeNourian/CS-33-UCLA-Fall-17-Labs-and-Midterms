@@ -12,7 +12,7 @@ Purpose: to provide a resource for students taking CS 33
 # Labs
 | Lab Name  |  Grade Received       |
 | ----------- |  ---------------|
-| Data Lab - Description    |  100/100           |
+| Data Lab - Description    |  98/100           |
 | Pexex Lab - Description | 100/100        |
 | Smashing Lab - Description|   99/100          |
 | OpenMP Lab -Description | 100/100         |
