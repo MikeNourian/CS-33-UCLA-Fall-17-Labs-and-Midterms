@@ -13,9 +13,9 @@
 | Lab Name  |  Grade Received       |
 | ----------- |  ---------------|
 | [Data Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Data%20Lab) - Description    |  98/100           |
-| [Pexex Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Pexex%20Lab) - Description | 100/100        |
-| [Smashing Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Smashing%20Lab) - Description|   99/100          |
-| [OpenMP Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/OpenMP%20Lab) -Description | 100/100         |
+| [Pexex Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Pexex%20Lab) - [Description](http://web.cs.ucla.edu/classes/fall17/cs33/lab/pexexlab.html) | 100/100        |
+| [Smashing Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Smashing%20Lab) - [Description](http://web.cs.ucla.edu/classes/fall17/cs33/lab/smashinglab.html)|   99/100          |
+| [OpenMP Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/OpenMP%20Lab) - [Description](OpenMP Lab) | 100/100         |
 
 
 # Homeowork
