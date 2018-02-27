@@ -46,6 +46,6 @@
 | [Reinman](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS_33_Reinman_MT_Fall09_o_id33.pdf)  | Fall 2009         |
 | [Reinman](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS_33_Riemann_MT2_Spring13_o_id359.pdf)  | Sprint 2013         |
 | [Reinman](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS_33_Spring_2017_MT1.pdf)  | Sprint 2017         |
-| [Nowatzki](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS_33_Spring_2017_MT1.pdf)  | Winter 2017         |
+| [Nowatzki](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS_33_Nowatzki_MT_Winter17_s_id859.pdf)  | Winter 2017         |
 
 
