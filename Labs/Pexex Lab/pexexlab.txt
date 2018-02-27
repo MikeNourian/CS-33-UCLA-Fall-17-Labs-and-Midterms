@@ -1,5 +1,4 @@
 #Name: Mike Milad Nourian
-#UID: 004854226
 
 First thing I did was to use the source code (and executable) under professor Eggert's directory and run it on gdb so I ran (before that I made sure that I am on the appropriate server which in this case is lnxsrv09):
 
