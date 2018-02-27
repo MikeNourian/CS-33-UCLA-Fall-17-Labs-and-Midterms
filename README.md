@@ -10,12 +10,19 @@
 ### Purpose: to provide a resource for students taking CS 33
 
 # Labs
-| Lab Name  |  Grade Received       |
+| Lab Name  | Solution/Code    |  Grade Received       |
 | ----------- |  ---------------|
-| [Data Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Data%20Lab) - Description    |  98/100           |
-| [Pexex Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Pexex%20Lab) - [Description](http://web.cs.ucla.edu/classes/fall17/cs33/lab/pexexlab.html) | 100/100        |
-| [Smashing Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Smashing%20Lab) - [Description](http://web.cs.ucla.edu/classes/fall17/cs33/lab/smashinglab.html)|   99/100          |
-| [OpenMP Lab](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/OpenMP%20Lab) - [Description](OpenMP Lab) | 100/100         |
+
+| Data Lab  | [Solution](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Data%20Lab)   |  98/100           |
+
+| [Pexex Lab](http://web.cs.ucla.edu/classes/fall17/cs33/lab/pexexlab.html) | [Solution](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Pexex%20Lab
+) | 100/100        |
+
+
+| [Smashing Lab](http://web.cs.ucla.edu/classes/fall17/cs33/lab/smashinglab.html) | [Solution](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/Smashing%20Lab) |   99/100       |
+
+
+| [OpenMP Lab](http://web.cs.ucla.edu/classes/fall17/cs33/lab/openmplab.html) | [Solution](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/tree/master/Labs/OpenMP%20Lab) | 100/100         |
 
 
 # Homeowork
@@ -29,7 +36,7 @@
 
 
 
-# Midterms
+# Midterms for CS33
 | Instructor  |  Quarter/Year       |
 | ----------- |  ---------------|
 | [Eggert](https://github.com/MikeNourian/CS-33-UCLA-Fall-17-Labs-and-Midterms/blob/master/Midterms/CS33_Eggert_MT_Midterm1_1%20(1).pdf)  | Fall 2016           |
