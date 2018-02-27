@@ -1,5 +1,4 @@
 # Name: Milad Nourian
-# UID: 004854226
 # CS 33
 # Professor Eggert
 
