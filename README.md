@@ -6,7 +6,7 @@
 | -----------| -------------|
 | Paul Eggert| Fall 2017    |
 
-### What it includes: my labs, homeowork, and midterms (many of them)
+### What it includes: my labs and homeowork solutions
 ### Purpose: to provide a resource for students taking CS 33
 
 # Labs
